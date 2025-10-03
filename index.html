@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>《致亲爱的刘春迪》</title>
+    <link type="text/css" rel="stylesheet" href="./static/default.css">
+    <script type="text/javascript" src="./static/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/jscex.min.js"></script>
+    <script type="text/javascript" src="./static/jscex-parser.js"></script>
+    <script type="text/javascript" src="./static/jscex-jit.js"></script>
+    <script type="text/javascript" src="./static/jscex-builderbase.min.js"></script>
+    <script type="text/javascript" src="./static/jscex-async.min.js"></script>
+    <script type="text/javascript" src="./static/jscex-async-powerpack.min.js"></script>
+    <script type="text/javascript" src="./static/functions.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./static/love.js" charset="utf-8"></script>
+    <style type="text/css">
+        body{margin:0;padding:0;background:#ffe;font-size:14px;font-family: '微软雅黑','宋体','PingFang SC','Microsoft YaHei','Heiti SC',sans-serif;color:#231F20;overflow:auto}
+        a {color:#000;font-size:14px;}
+        #main{width:100%;}
+        #wrap {
+            position: relative;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 1100px;
+            min-height: 700px;
+            margin-top: 10px;
+        }
+        #text{width:400px;height:425px;left:60px;top:80px;position:absolute;}
+        #code {
+            display: none;
+            width: 100%;
+            font-size: 15px;
+            word-break: break-all;
+            word-wrap: break-word;
+            line-height: 1.8;
+            height: auto;
+            position: relative;
+            z-index: 10;
+            overflow-wrap: break-word;
+            transition: min-height 0.2s;}
+            color: #C85A8E;  /* 深粉色，浪漫温馨 */
+            letter-spacing: 0.5px;  /* 增加字间距 */
+        #code font {
+            width: 100%;
+            display: block;
+            color: inherit;  /* 继承父元素颜色 */
+        }
+        #code .say {
+            display: inline-block;
+            margin-left: 5px;
+            vertical-align: top;
+            text-shadow: 0 1px 2px rgba(200, 90, 142, 0.3);  /* 粉色阴影 */
+            word-break: break-all;
+        }
+        #code .space {
+            margin-right: 150px;
+            display: inline-block;
+        }
+        .STYLE1 {
+            color: #666666
+        }
+        #clock-box {
+            position: absolute;
+            left: 260px;
+            top: 800px;
+            font-size: 28px;
+            display: none;
+            background: linear-gradient(180deg, #fffbe6 0%, #ffe 100%);
+            z-index: 9;
+            padding: 8px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        #clock {
+            margin-left: 48px;
+            min-width: 320px;
+            min-height: 60px;
+            background: transparent;
+            text-align: left;
+        }
+        #clock .digit {
+            font-size: 64px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            color: #231F20;
+        }
+        #canvas{margin:0 auto;width:1100px;height:680px;}
+        #error{margin:0 auto;text-align:center;margin-top:60px;display:none;}
+        .hand{cursor:pointer;}
+
+        /* 歌词样式 */
+        #lyric-box {
+            position: fixed;
+            bottom: 80px;
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            color: #fff;
+            text-shadow: 0 3px 8px rgba(0,0,0,0.8);  /* 增强阴影 */
+            opacity: 1; /* 改为1，让歌词可见 */
+            transition: opacity 1s ease;
+            font-family: '微软雅黑','PingFang SC','Heiti SC',sans-serif;
+            z-index: 9999;
+            line-height: 1.6;
+        }
+        #lyric-en {
+            color: #FFB6C1;  /* 浅粉色，更浪漫 */
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        #lyric-cn {
+            color: #FFD700;
+            font-size: 22px;
+
+        }
+
+        @media screen and (max-width: 768px) {
+            #text {
+                width: 90%;
+                left: 5%;
+                top: 60px;
+            }
+            #clock-box {
+                width: 96%;
+                left: 2%;
+                top: auto;
+                bottom: 20px;
+                font-size: 18px;
+                min-width: unset;
+                padding: 6px 4px;
+            }
+            #clock {
+                margin-left: 0;
+                text-align: center;
+                min-width: unset;
+            }
+            #clock .digit {
+                font-size: 36px;
+            }
+            #code {
+                font-size: 15px;
+                line-height: 1.6;
+                transition: min-height 0.2s;
+                padding: 0 8px;
+            }
+            #lyric-box {
+                font-size: 16px;
+                bottom: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 修复1: 恢复 muted 属性，确保符合浏览器自动播放策略 -->
+<audio id="bgm" autoplay muted loop>
+    <source src="./static/TheFlood.mp3" type="audio/mp3" />
+</audio>
+
+<div id="main">
+    <div id="error">本页面采用HTML5编辑，目前您的浏览器无法显示，请换成谷歌(<a
+            href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a>)或者火狐(<a
+            href="http://firefox.com.cn/download/">Firefox</a>)浏览器，或者其他游览器的最新版本。</div>
+
+    <div id="wrap">
+        <div id="text">
+            <div id="code">
+                <font color="#FF0000">
+                    <span class="say">亲爱的刘春迪，</span><br>
+                    <span class="say">我们的故事，从2025年8月27日晚上9点16分开始。</span><br>
+                    <span class="say">那天加上好友的瞬间，我没想到，会在之后的日子里，一直点亮我的生活。</span><br>
+                    <br>
+                    <span class="say">9月23日的夜晚，你认真地说出心里的顾虑，那一刻让我明白，喜欢一个人并不轻松。</span><br>
+                    <span class="say">可正是那种拉扯与不确定，让我更加确定，我想要留下来。</span><br>
+                    <br>
+                    <span class="say">后来，我们真正亲吻的那一刻，我知道，我们的心已经交换了答案。</span><br>
+                    <span class="say">从那天起，我就更愿意相信，相遇不是偶然，而是注定。</span><br>
+                    <br>
+                    <span class="say">我不知道未来会怎样，但我知道，今天的我，很喜欢你。</span><br>
+                    <span class="say"><span class="space"></span>—— 永远爱你的 田昊</span><br>
+                </font>
+            </div>
+        </div>
+
+        <div id="clock-box">
+            <span class="STYLE1"></span>
+            <font color="#D6336C">亲爱的刘春迪，</font><br>
+            <font color="#FF6699">我们的故事开始，已经……</font><br>
+            <div id="clock"></div>
+        </div>
+
+        <canvas id="canvas" width="1100" height="680"></canvas>
+    </div>
+
+    <!-- 歌词显示区域 -->
+    <div id="lyric-box">
+        <div id="lyric-en"></div>
+        <div id="lyric-cn"></div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var canvas = $('#canvas');
+
+        if (!canvas[0].getContext) {
+            $("#error").show();
+            return false;
+        }
+
+        var width = canvas.width();
+        var height = canvas.height();
+        canvas.attr("width", width);
+        canvas.attr("height", height);
+
+        var opts = {
+            seed: {
+                x: width / 2 - 20,
+                color: "rgb(190, 26, 37)",
+                scale: 2
+            },
+            branch: [
+                [535, 680, 570, 250, 500, 200, 30, 100, [
+                    [540, 500, 455, 417, 340, 400, 13, 100, [
+                        [450, 435, 434, 430, 394, 395, 2, 40]
+                    ]],
+                    [550, 445, 600, 356, 680, 345, 12, 100, [
+                        [578, 400, 648, 409, 661, 426, 3, 80]
+                    ]],
+                    [539, 281, 537, 248, 534, 217, 3, 40],
+                    [546, 397, 413, 247, 328, 244, 9, 80, [
+                        [427, 286, 383, 253, 371, 205, 2, 40],
+                        [498, 345, 435, 315, 395, 330, 4, 60]
+                    ]],
+                    [546, 357, 608, 252, 678, 221, 6, 100, [
+                        [590, 293, 646, 277, 648, 271, 2, 80]
+                    ]]
+                ]]
+            ],
+            bloom: {
+                num: 700,
+                width: 1080,
+                height: 650,
+            },
+            footer: {
+                width: 1200,
+                height: 5,
+                speed: 10,
+            }
+        }
+
+        var tree = new Tree(canvas[0], width, height, opts);
+        var seed = tree.seed;
+        var foot = tree.footer;
+        var hold = 1;
+
+        canvas.click(function (e) {
+            var offset = canvas.offset(), x, y;
+            x = e.pageX - offset.left;
+            y = e.pageY - offset.top;
+            if (seed.hover(x, y)) {
+                hold = 0;
+                canvas.unbind("click");
+                canvas.unbind("mousemove");
+                canvas.removeClass('hand');
+            }
+        }).mousemove(function (e) {
+            var offset = canvas.offset(), x, y;
+            x = e.pageX - offset.left;
+            y = e.pageY - offset.top;
+            canvas.toggleClass('hand', seed.hover(x, y));
+        });
+
+        var seedAnimate = eval(Jscex.compile("async", function () {
+            seed.draw();
+            while (hold) {
+                $await(Jscex.Async.sleep(10));
+            }
+            while (seed.canScale()) {
+                seed.scale(0.95);
+                $await(Jscex.Async.sleep(10));
+            }
+            while (seed.canMove()) {
+                seed.move(0, 2);
+                foot.draw();
+                $await(Jscex.Async.sleep(10));
+            }
+        }));
+
+        var growAnimate = eval(Jscex.compile("async", function () {
+            do {
+                tree.grow();
+                $await(Jscex.Async.sleep(10));
+            } while (tree.canGrow());
+        }));
+
+        var flowAnimate = eval(Jscex.compile("async", function () {
+            do {
+                tree.flower(2);
+                $await(Jscex.Async.sleep(10));
+            } while (tree.canFlower());
+        }));
+
+        var moveAnimate = eval(Jscex.compile("async", function () {
+            tree.snapshot("p1", 240, 0, 610, 680);
+            while (tree.move("p1", 500, 0)) {
+                foot.draw();
+                $await(Jscex.Async.sleep(10));
+            }
+            foot.draw();
+            tree.snapshot("p2", 500, 0, 610, 680);
+            canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
+            canvas.css("background", "#ffe");
+            $await(Jscex.Async.sleep(300));
+            canvas.css("background", "none");
+        }));
+
+        var jumpAnimate = eval(Jscex.compile("async", function () {
+            var ctx = tree.ctx;
+            while (true) {
+                tree.ctx.clearRect(0, 0, width, height);
+                tree.jump();
+                foot.draw();
+                $await(Jscex.Async.sleep(25));
+            }
+        }));
+
+        var textAnimate = eval(Jscex.compile("async", function () {
+            var together = new Date();
+            together.setFullYear(2025, 7, 27);
+            together.setHours(21);
+            together.setMinutes(16);
+            together.setSeconds(0);
+            together.setMilliseconds(0);
+            $("#code").show().typewriter();
+            $("#clock-box").fadeIn(500);
+            while (true) {
+                timeElapse(together);
+                $await(Jscex.Async.sleep(1000));
+            }
+        }));
+
+        var runAsync = eval(Jscex.compile("async", function () {
+            $await(seedAnimate());
+            $await(growAnimate());
+            $await(flowAnimate());
+            $await(moveAnimate());
+            textAnimate().start();
+            $await(jumpAnimate());
+        }));
+
+        runAsync().start();
+
+        // 修复3: 歌词功能
+        const lyrics = [
+            { time: 13.036, en: "Oh well how times have changed", cn: "时过境迁 沧海桑田" },
+            { time: 18.017, en: "Got the world in your hands", cn: "空洞凝视" },
+            { time: 19.273, en: "but an empty gaze", cn: "掌心的世界" },
+            { time: 22.926, en: "Like Diving under a tidal wave", cn: "如潜入漫卷潮汐之间" },
+            { time: 27.864, en: "Yeah I know how it feels", cn: "我也曾亲历" },
+            { time: 29.284, en: "when the levee breaks", cn: "溃堤之感" },
+            { time: 33.354, en: "Hold your breath", cn: "屏息凝神" },
+            { time: 36.466, en: "Take my hand", cn: "握紧我的手" },
+            { time: 38.577, en: "Don't you know you're not alone", cn: "你知道你并非孑然一身" },
+            { time: 43.645, en: "Cuz I won't lose you in the water", cn: "我不会任湍流冲散彼此" },
+            { time: 47.428, en: "When the river floods", cn: "纵使浪潮滔天" },
+            { time: 50.969, en: "It floods", cn: "席卷而来" },
+            { time: 53.258, en: "No I won't lose you in the water", cn: "我不会任湍流冲散彼此" },
+            { time: 57.560, en: "When the river floods", cn: "纵使浪潮滔天" },
+            { time: 61.052, en: "It floods", cn: "席卷而来" },
+            { time: 84.612, en: "Alright don't float away", cn: "不要放弃信念" },
+            { time: 89.256, en: "With your head in the clouds", cn: "当你迷失于" },
+            { time: 90.670, en: "like a northern haze", cn: "层云厚雾" },
+            { time: 94.344, en: "Closing in and the sky is grey", cn: "天际灰霭朦胧" },
+            { time: 99.385, en: "Keep an eye on the tide", cn: "务必留心紧逼的潮水" },
+            { time: 100.789, en: "when it starts to rain", cn: "骤降的雨滴" },
+            { time: 104.710, en: "Hold your breath", cn: "屏息凝神" },
+            { time: 107.960, en: "Take my hand", cn: "握紧我的手" },
+            { time: 109.420, en: "Don't you know you're not alone", cn: "你知道你并非孑然一身" },
+            { time: 114.772, en: "Cuz I won't lose you in the water", cn: "我不会任湍流冲散彼此" },
+            { time: 118.801, en: "When the river floods", cn: "纵使浪潮滔天" },
+            { time: 122.394, en: "It floods", cn: "席卷而来" },
+            { time: 125.015, en: "No I won't lose you in the water", cn: "我不会任湍流冲散彼此" },
+            { time: 129.092, en: "When the river floods", cn: "纵使浪潮滔天" },
+            { time: 132.696, en: "It floods", cn: "席卷而来" },
+            { time: 155.509, en: "Cuz I won't lose you in the water", cn: "不要放弃信念" },
+            { time: 159.521, en: "When the river floods", cn: "纵使浪潮滔天" },
+            { time: 163.093, en: "It floods", cn: "席卷而来" },
+            { time: 165.558, en: "No I won't lose you in the water", cn: "我不会任湍流冲散彼此" },
+            { time: 169.968, en: "When the river floods", cn: "纵使浪潮滔天" },
+            { time: 173.551, en: "It floods", cn: "我们无所畏惧" }
+        ];
+
+        const audio = document.getElementById("bgm");
+        const lyricEn = document.getElementById("lyric-en");
+        const lyricCn = document.getElementById("lyric-cn");
+
+        let currentIndex = -1;
+
+        audio.addEventListener("timeupdate", () => {
+            for (let i = 0; i < lyrics.length; i++) {
+                if (audio.currentTime >= lyrics[i].time &&
+                    (i === lyrics.length - 1 || audio.currentTime < lyrics[i + 1].time)) {
+                    if (currentIndex !== i) {
+                        lyricEn.textContent = lyrics[i].en;
+                        lyricCn.textContent = lyrics[i].cn;
+                        currentIndex = i;
+                    }
+                    break;
+                }
+            }
+        });
+
+        window.addEventListener('click', function () {
+            var bgm = document.getElementById('bgm');
+            bgm.muted = false;
+            bgm.play().catch(e => console.log('播放失败:', e));
+        }, { once: true });
+
+    })();
+</script>
+
+</body>
+</html>

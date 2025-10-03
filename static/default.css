@@ -1,0 +1,147 @@
+body{margin:0;padding:0;background:#ffe;font-size:14px;font-family: '微软雅黑','宋体','PingFang SC','Microsoft YaHei','Heiti SC',sans-serif;color:#231F20;overflow:auto}
+a {color:#000;font-size:14px;}
+#main{width:100%;}
+#wrap {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1100px;
+    min-height: 700px;
+    margin-top: 10px;
+}
+#text{width:400px;height:425px;left:60px;top:80px;position:absolute;}
+#code {
+    display: none;
+    width: 85%;
+    font-size: 14px;
+    word-break: break-all;
+    word-wrap: break-word;
+    line-height: 1.6;
+    height: auto;
+    /*max-height: 320px;*/
+    /*overflow-y: auto;*/
+    position: relative;
+    z-index: 10;
+    overflow-wrap: break-word;
+    transition: min-height 0.2s;
+}
+#code font {
+    width: 100%;
+    display: block;
+}
+#code .say {
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: top;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+    word-break: break-all;
+}
+#code .space {
+    margin-right: 150px;
+    display: inline-block;
+}
+#clock-box {
+    position: absolute;
+    left: 260px;
+    top: 800px;  /* 原来1000px，往上移 */
+    font-size: 28px;
+    display: none;
+    background: linear-gradient(180deg, #fffbe6 0%, #ffe 100%);
+    z-index: 9;
+    padding: 8px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+#clock {
+    margin-left: 48px;
+    min-width: 320px;
+    min-height: 60px;
+    background: transparent;
+    text-align: left;
+}
+#clock .digit {
+    font-size: 64px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    color: #231F20;
+}
+#canvas{margin:0 auto;width:1100px;height:680px;}
+#error{margin:0 auto;text-align:center;margin-top:60px;display:none;}
+.hand{cursor:pointer;}
+.say{margin-left:5px;}
+.space{margin-right:150px;}
+#code::-webkit-scrollbar {
+    width: 6px;
+    background: transparent;
+}
+#code::-webkit-scrollbar-thumb {
+    background: rgba(180,180,180,0.3);
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+#code::-webkit-scrollbar-thumb:hover {
+    background: rgba(100,100,100,0.6);
+}
+#code:hover::-webkit-scrollbar-thumb {
+    background: rgba(120,120,120,0.5);
+}
+#code::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+
+#lyric-box {
+    position: fixed;
+    bottom: 60px;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+    opacity: 0;
+    transition: opacity 1s ease;
+    font-family: '微软雅黑','PingFang SC','Heiti SC',sans-serif;
+    z-index: 9999; /* 确保在最上层 */
+}
+
+#lyric-en {
+    color: #fff;
+    font-weight: bold;
+}
+
+#lyric-cn {
+    color: #FFD700;
+}
+@media screen and (max-width: 768px) {
+    #text {
+        width: 90%;
+        left: 5%;
+        top: 60px;
+    }
+    #clock-box {
+        width: 96%;
+        left: 2%;
+        top: auto;
+        bottom: 20px;
+        font-size: 18px;
+        min-width: unset;
+        padding: 6px 4px;
+
+    }
+    #clock {
+        margin-left: 0;
+        text-align: center;
+        min-width: unset;
+    }
+    #clock .digit {
+        font-size: 36px;
+    }
+    #code {
+        font-size: 14px;
+        /*max-height: 180px;*/
+        line-height: 1.5;
+        transition: min-height 0.2s;
+        padding: 0 8px;
+    }
+}
