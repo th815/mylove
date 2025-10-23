@@ -1,147 +1,317 @@
-body{margin:0;padding:0;background:#ffe;font-size:14px;font-family: '微软雅黑','宋体','PingFang SC','Microsoft YaHei','Heiti SC',sans-serif;color:#231F20;overflow:auto}
-a {color:#000;font-size:14px;}
-#main{width:100%;}
-#wrap {
-    position: relative;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1100px;
-    min-height: 700px;
-    margin-top: 10px;
-}
-#text{width:400px;height:425px;left:60px;top:80px;position:absolute;}
-#code {
-    display: none;
-    width: 85%;
-    font-size: 14px;
-    word-break: break-all;
-    word-wrap: break-word;
-    line-height: 1.6;
-    height: auto;
-    /*max-height: 320px;*/
-    /*overflow-y: auto;*/
-    position: relative;
-    z-index: 10;
-    overflow-wrap: break-word;
-    transition: min-height 0.2s;
-}
-#code font {
-    width: 100%;
-    display: block;
-}
-#code .say {
-    display: inline-block;
-    margin-left: 5px;
-    vertical-align: top;
-    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
-    word-break: break-all;
-}
-#code .space {
-    margin-right: 150px;
-    display: inline-block;
-}
-#clock-box {
-    position: absolute;
-    left: 260px;
-    top: 800px;  /* 原来1000px，往上移 */
-    font-size: 28px;
-    display: none;
-    background: linear-gradient(180deg, #fffbe6 0%, #ffe 100%);
-    z-index: 9;
-    padding: 8px 16px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-#clock {
-    margin-left: 48px;
-    min-width: 320px;
-    min-height: 60px;
-    background: transparent;
-    text-align: left;
-}
-#clock .digit {
-    font-size: 64px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-    color: #231F20;
-}
-#canvas{margin:0 auto;width:1100px;height:680px;}
-#error{margin:0 auto;text-align:center;margin-top:60px;display:none;}
-.hand{cursor:pointer;}
-.say{margin-left:5px;}
-.space{margin-right:150px;}
-#code::-webkit-scrollbar {
-    width: 6px;
-    background: transparent;
-}
-#code::-webkit-scrollbar-thumb {
-    background: rgba(180,180,180,0.3);
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-#code::-webkit-scrollbar-thumb:hover {
-    background: rgba(100,100,100,0.6);
-}
-#code:hover::-webkit-scrollbar-thumb {
-    background: rgba(120,120,120,0.5);
-}
-#code::-webkit-scrollbar-corner {
-    background: transparent;
+:root {
+    --bg-color: #fff7f0;
+    --card-bg: rgba(255, 255, 255, 0.86);
+    --card-border: rgba(255, 182, 193, 0.5);
+    --text-color: #231f20;
+    --accent: #c85a8e;
+    --accent-strong: #d6336c;
+    --shadow-soft: 0 24px 65px rgba(200, 90, 142, 0.18);
+    --shadow-deep: 0 18px 40px rgba(35, 31, 32, 0.14);
+    --font-base: '微软雅黑','PingFang SC','Microsoft YaHei','Heiti SC',sans-serif;
 }
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, rgba(255, 214, 224, 0.55), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(255, 239, 209, 0.9), transparent 45%),
+                var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-base);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    padding-bottom: clamp(72px, 7vw, 128px);
+}
+
+a {
+    color: var(--accent-strong);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#wrap {
+    position: relative;
+    margin: clamp(16px, 4vw, 48px) auto clamp(48px, 8vw, 120px);
+    padding: clamp(24px, 6vw, 48px);
+    width: min(100% - clamp(24px, 8vw, 96px), 1380px);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: clamp(18px, 4vw, 28px);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(16px);
+    display: grid;
+    gap: clamp(20px, 4vw, 56px);
+    grid-template-columns: minmax(0, clamp(300px, 30vw, 420px)) minmax(0, 1fr);
+    grid-template-areas:
+        "text canvas"
+        "clock canvas";
+    align-items: start;
+}
+
+@supports not (backdrop-filter: blur(16px)) {
+    #wrap {
+        background: rgba(255, 255, 255, 0.92);
+    }
+}
+
+#text {
+    grid-area: text;
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+}
+
+#code {
+    display: none;
+    width: 100%;
+    font-size: clamp(15px, 1.6vw, 18px);
+    letter-spacing: 0.4px;
+    line-height: 1.9;
+    color: var(--accent);
+    text-shadow: 0 1px 3px rgba(200, 90, 142, 0.26);
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+#code font {
+    display: block;
+    color: inherit;
+}
+
+#code .say {
+    display: inline-block;
+    margin: 0 2px 6px 2px;
+    vertical-align: top;
+}
+
+#code .space {
+    display: inline-block;
+    margin-right: clamp(48px, 12vw, 160px);
+}
+
+#text .type-cursor {
+    display: inline-block;
+    margin-left: 2px;
+    color: var(--accent-strong);
+    animation: typeCursorBlink 1s steps(1) infinite;
+}
+
+@keyframes typeCursorBlink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+}
+
+#clock-box {
+    grid-area: clock;
+    align-self: start;
+    position: sticky;
+    top: clamp(16px, 4vw, 48px);
+    display: none;
+    padding: clamp(16px, 4vw, 24px);
+    border-radius: clamp(14px, 3vw, 20px);
+    background: linear-gradient(180deg, rgba(255, 247, 231, 0.95) 0%, rgba(255, 238, 221, 0.9) 100%);
+    box-shadow: var(--shadow-deep);
+    border: 1px solid rgba(255, 182, 193, 0.4);
+    font-size: clamp(18px, 2vw, 22px);
+}
+
+#clock {
+    margin-top: clamp(12px, 2vw, 18px);
+    text-align: left;
+    min-width: auto;
+}
+
+#clock .digit {
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-color);
+}
+
+.STYLE1 {
+    color: rgba(35, 31, 32, 0.65);
+    font-weight: 500;
+}
+
+#canvas {
+    grid-area: canvas;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 55 / 34;
+    display: block;
+    margin: 0 auto;
+    border-radius: clamp(16px, 3vw, 24px);
+    background: #ffe;
+    box-shadow: var(--shadow-deep);
+}
+
+#error {
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 60px;
+    display: none;
+}
+
+.hand {
+    cursor: pointer;
+}
+
+#code::-webkit-scrollbar {
+    width: 6px;
+}
+
+#code::-webkit-scrollbar-thumb {
+    background: rgba(180, 180, 180, 0.3);
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+#code::-webkit-scrollbar-thumb:hover {
+    background: rgba(120, 120, 120, 0.6);
+}
 
 #lyric-box {
     position: fixed;
-    bottom: 60px;
-    width: 100%;
-    text-align: center;
-    font-size: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: clamp(40px, 9vw, 96px);
+    width: min(92%, 720px);
+    padding: clamp(12px, 4vw, 20px) clamp(18px, 5vw, 28px);
+    border-radius: clamp(18px, 4vw, 28px);
+    background: linear-gradient(135deg, rgba(200, 90, 142, 0.9) 0%, rgba(255, 160, 180, 0.85) 100%);
     color: #fff;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
-    opacity: 0;
-    transition: opacity 1s ease;
-    font-family: '微软雅黑','PingFang SC','Heiti SC',sans-serif;
-    z-index: 9999; /* 确保在最上层 */
+    text-align: center;
+    font-size: clamp(16px, 3vw, 22px);
+    line-height: 1.6;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    z-index: 9999;
+    box-shadow: var(--shadow-soft);
 }
 
 #lyric-en {
+    font-weight: 600;
+    font-size: clamp(16px, 2.8vw, 22px);
     color: #fff;
-    font-weight: bold;
+    margin-bottom: 6px;
 }
 
 #lyric-cn {
-    color: #FFD700;
+    color: #fffbe6;
+    font-size: clamp(14px, 2.4vw, 20px);
 }
-@media screen and (max-width: 768px) {
+
+@media (max-width: 1180px) {
+    #wrap {
+        width: min(100% - clamp(16px, 6vw, 56px), 1100px);
+        grid-template-columns: minmax(0, clamp(280px, 40vw, 400px)) minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    body {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+    #wrap {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "text"
+            "canvas"
+            "clock";
+        padding: clamp(20px, 7vw, 32px);
+    }
     #text {
-        width: 90%;
-        left: 5%;
-        top: 60px;
+        max-width: none;
+        margin: 0 auto;
+    }
+    #canvas {
+        max-width: 100%;
     }
     #clock-box {
-        width: 96%;
-        left: 2%;
-        top: auto;
-        bottom: 20px;
-        font-size: 18px;
-        min-width: unset;
-        padding: 6px 4px;
-
+        position: relative;
+        top: 0;
+        width: 100%;
+        font-size: clamp(16px, 2.6vw, 20px);
     }
     #clock {
-        margin-left: 0;
         text-align: center;
-        min-width: unset;
     }
     #clock .digit {
-        font-size: 36px;
+        font-size: clamp(28px, 6vw, 40px);
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-bottom: clamp(96px, 16vw, 140px);
+    }
+    #wrap {
+        gap: clamp(16px, 6vw, 28px);
     }
     #code {
+        font-size: clamp(15px, 4vw, 17px);
+        line-height: 1.8;
+    }
+    #code .space {
+        margin-right: clamp(32px, 14vw, 120px);
+    }
+    #clock-box {
+        padding: clamp(12px, 5vw, 18px);
+    }
+    #lyric-box {
+        bottom: clamp(32px, 12vw, 72px);
+        width: min(94%, 560px);
+    }
+}
+
+@media (max-width: 560px) {
+    #wrap {
+        width: min(100% - clamp(12px, 8vw, 40px), 92%);
+        padding: clamp(16px, 8vw, 24px);
+    }
+    #code {
+        font-size: clamp(14px, 4.2vw, 16px);
+    }
+    #clock-box {
+        font-size: clamp(15px, 4.4vw, 18px);
+    }
+    #clock .digit {
+        font-size: clamp(24px, 8vw, 34px);
+    }
+    #lyric-box {
+        width: min(95%, 480px);
+        font-size: clamp(15px, 4.6vw, 18px);
+    }
+}
+
+@media (max-width: 420px) {
+    body {
         font-size: 14px;
-        /*max-height: 180px;*/
-        line-height: 1.5;
-        transition: min-height 0.2s;
-        padding: 0 8px;
+    }
+    #code {
+        line-height: 1.7;
+    }
+    #clock {
+        margin-top: 10px;
     }
 }
