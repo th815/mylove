@@ -164,21 +164,63 @@
         const foot = tree.footer;
         let hold = 1;
 
+        const getPointerPosition = event => {
+            const rect = canvasEl.getBoundingClientRect();
+            const scaleX = rect.width ? canvasEl.width / rect.width : 1;
+            const scaleY = rect.height ? canvasEl.height / rect.height : 1;
+            const original = event.originalEvent || event;
+            let point = original;
+            if (original && original.touches && original.touches.length) {
+                point = original.touches[0];
+            } else if (original && original.changedTouches && original.changedTouches.length) {
+                point = original.changedTouches[0];
+            }
+            let clientX = 0;
+            let clientY = 0;
+            if (point && point.clientX != null && point.clientY != null) {
+                clientX = point.clientX;
+                clientY = point.clientY;
+            } else if (point && point.pageX != null && point.pageY != null) {
+                clientX = point.pageX - window.pageXOffset;
+                clientY = point.pageY - window.pageYOffset;
+            } else if (event.pageX != null && event.pageY != null) {
+                clientX = event.pageX - window.pageXOffset;
+                clientY = event.pageY - window.pageYOffset;
+            }
+            const x = (clientX - rect.left) * scaleX;
+            const y = (clientY - rect.top) * scaleY;
+            return {
+                x: Math.max(0, Math.min(canvasEl.width - 1, Math.round(x))),
+                y: Math.max(0, Math.min(canvasEl.height - 1, Math.round(y)))
+            };
+        };
+
         const pointerHandler = callback => event => {
-            const offset = $canvas.offset();
-            const x = event.pageX - offset.left;
-            const y = event.pageY - offset.top;
+            const { x, y } = getPointerPosition(event);
             callback(x, y, event);
         };
 
-        $canvas.on('click', pointerHandler((x, y) => {
+        const activateSeed = (x, y, event) => {
             if (seed.hover(x, y)) {
                 hold = 0;
                 $canvas.off('click');
                 $canvas.off('mousemove');
+                $canvas.off('touchstart');
                 $canvas.removeClass('hand');
+                if (event.type === 'touchstart') {
+                    if (typeof event.preventDefault === 'function') {
+                        event.preventDefault();
+                    }
+                    const original = event.originalEvent || event;
+                    if (original && typeof original.preventDefault === 'function') {
+                        original.preventDefault();
+                    }
+                }
             }
-        }));
+        };
+
+        $canvas.on('click', pointerHandler(activateSeed));
+        $canvas.on('touchstart', pointerHandler(activateSeed));
 
         $canvas.on('mousemove', pointerHandler((x, y) => {
             $canvas.toggleClass('hand', seed.hover(x, y));
