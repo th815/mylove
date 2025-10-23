@@ -1,0 +1,14 @@
+# General OS artifacts
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Temporary editors files
+*.swp
+*.swo
