@@ -1,6 +1,25 @@
-body{margin:0;padding:0;background:#ffe;font-size:14px;font-family: '微软雅黑','宋体','PingFang SC','Microsoft YaHei','Heiti SC',sans-serif;color:#231F20;overflow:auto}
-a {color:#000;font-size:14px;}
-#main{width:100%;}
+/* 温馨浪漫的渐变背景 */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 50%, #ffd6dd 100%);
+    background-attachment: fixed;
+    font-size: 14px;
+    font-family: '微软雅黑', 'PingFang SC', 'Microsoft YaHei', 'Heiti SC', sans-serif;
+    color: #5a3a3a;
+    overflow: auto;
+}
+
+a {
+    color: #d63864;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+#main {
+    width: 100%;
+}
+
 #wrap {
     position: relative;
     margin: 0 auto;
@@ -9,49 +28,72 @@ a {color:#000;font-size:14px;}
     min-height: 700px;
     margin-top: 10px;
 }
-#text{width:400px;height:425px;left:60px;top:80px;position:absolute;}
+
+#text {
+    width: 400px;
+    height: 425px;
+    left: 60px;
+    top: 80px;
+    position: absolute;
+}
+
+/* 情书文字样式 - 温馨浪漫 */
 #code {
     display: none;
     width: 85%;
-    font-size: 14px;
+    font-size: 16px;
     word-break: break-all;
     word-wrap: break-word;
-    line-height: 1.6;
+    line-height: 2;
     height: auto;
-    /*max-height: 320px;*/
-    /*overflow-y: auto;*/
     position: relative;
     z-index: 10;
     overflow-wrap: break-word;
     transition: min-height 0.2s;
+    color: #d63864;
+    letter-spacing: 1px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(214, 56, 100, 0.15);
 }
+
 #code font {
     width: 100%;
     display: block;
+    color: inherit;
 }
+
 #code .say {
     display: inline-block;
     margin-left: 5px;
     vertical-align: top;
-    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+    text-shadow: 0 2px 4px rgba(214, 56, 100, 0.2);
     word-break: break-all;
 }
+
 #code .space {
     margin-right: 150px;
     display: inline-block;
 }
+
+/* 时间盒子 - 优雅浪漫 */
 #clock-box {
     position: absolute;
     left: 260px;
-    top: 800px;  /* 原来1000px，往上移 */
+    top: 800px;
     font-size: 28px;
     display: none;
-    background: linear-gradient(180deg, #fffbe6 0%, #ffe 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 240, 245, 0.95) 100%);
     z-index: 9;
-    padding: 8px 16px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 20px 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(214, 56, 100, 0.2), 0 0 60px rgba(255, 182, 193, 0.3);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
+
 #clock {
     margin-left: 48px;
     min-width: 320px;
@@ -59,18 +101,43 @@ a {color:#000;font-size:14px;}
     background: transparent;
     text-align: left;
 }
+
 #clock .digit {
     font-size: 64px;
     font-weight: bold;
-    letter-spacing: 2px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-    color: #231F20;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(214, 56, 100, 0.3);
+    color: #d63864;
+    background: linear-gradient(135deg, #d63864 0%, #ff6b9d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
-#canvas{margin:0 auto;width:1100px;height:680px;}
-#error{margin:0 auto;text-align:center;margin-top:60px;display:none;}
-.hand{cursor:pointer;}
-.say{margin-left:5px;}
-.space{margin-right:150px;}
+
+#canvas {
+    margin: 0 auto;
+    width: 1100px;
+    height: 680px;
+}
+
+#error {
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 60px;
+    display: none;
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.say {
+    margin-left: 5px;
+}
+
+.space {
+    margin-right: 150px;
+}
 #code::-webkit-scrollbar {
     width: 6px;
     background: transparent;
@@ -91,57 +158,150 @@ a {color:#000;font-size:14px;}
 }
 
 
+/* 歌词样式 - 温馨梦幻 */
 #lyric-box {
     position: fixed;
-    bottom: 60px;
+    bottom: 100px;
     width: 100%;
     text-align: center;
-    font-size: 20px;
+    font-size: 26px;
     color: #fff;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
-    opacity: 0;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 182, 193, 0.5);
+    opacity: 1;
     transition: opacity 1s ease;
-    font-family: '微软雅黑','PingFang SC','Heiti SC',sans-serif;
-    z-index: 9999; /* 确保在最上层 */
+    font-family: '微软雅黑', 'PingFang SC', 'Heiti SC', sans-serif;
+    z-index: 9999;
+    line-height: 1.8;
+    padding: 15px 20px;
+    background: rgba(214, 56, 100, 0.15);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    max-width: 90%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
 }
 
 #lyric-en {
-    color: #fff;
+    color: #ffe4e9;
     font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 28px;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 182, 193, 0.8);
 }
 
 #lyric-cn {
-    color: #FFD700;
+    color: #ffd700;
+    font-size: 24px;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.6);
 }
+
+/* 移动端适配 - 完善优化 */
 @media screen and (max-width: 768px) {
+    body {
+        background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 50%, #ffd6dd 100%);
+        background-attachment: fixed;
+    }
+    
+    #wrap {
+        max-width: 100%;
+        min-height: auto;
+        padding-bottom: 180px;
+    }
+    
     #text {
         width: 90%;
         left: 5%;
-        top: 60px;
+        top: 40px;
+        height: auto;
     }
+    
+    #code {
+        font-size: 14px;
+        line-height: 1.8;
+        padding: 15px;
+        letter-spacing: 0.5px;
+        border-radius: 12px;
+    }
+    
     #clock-box {
-        width: 96%;
-        left: 2%;
+        width: 90%;
+        left: 5%;
+        right: 5%;
         top: auto;
-        bottom: 20px;
-        font-size: 18px;
+        bottom: 40px;
+        font-size: 16px;
         min-width: unset;
-        padding: 6px 4px;
-
+        padding: 15px 10px;
+        border-radius: 15px;
+        text-align: center;
     }
+    
     #clock {
         margin-left: 0;
         text-align: center;
         min-width: unset;
+        min-height: auto;
     }
+    
     #clock .digit {
-        font-size: 36px;
+        font-size: 32px;
+        letter-spacing: 2px;
     }
+    
+    #canvas {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+    }
+    
+    #lyric-box {
+        font-size: 16px;
+        bottom: 160px;
+        padding: 12px 15px;
+        max-width: 85%;
+        border-radius: 12px;
+    }
+    
+    #lyric-en {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    
+    #lyric-cn {
+        font-size: 16px;
+    }
+}
+
+/* 小屏手机适配 */
+@media screen and (max-width: 480px) {
     #code {
+        font-size: 13px;
+        line-height: 1.7;
+        padding: 12px;
+    }
+    
+    #clock-box {
         font-size: 14px;
-        /*max-height: 180px;*/
-        line-height: 1.5;
-        transition: min-height 0.2s;
-        padding: 0 8px;
+        padding: 12px 8px;
+        bottom: 30px;
+    }
+    
+    #clock .digit {
+        font-size: 28px;
+    }
+    
+    #lyric-box {
+        font-size: 14px;
+        bottom: 140px;
+        padding: 10px 12px;
+    }
+    
+    #lyric-en {
+        font-size: 16px;
+    }
+    
+    #lyric-cn {
+        font-size: 14px;
     }
 }
