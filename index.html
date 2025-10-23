@@ -14,12 +14,11 @@
     <script type="text/javascript" src="./static/functions.js" charset="utf-8"></script>
     <script type="text/javascript" src="./static/love.js" charset="utf-8"></script>
     <style type="text/css">
-        /* 温馨浪漫的渐变背景 */
+        /* 简洁干净的背景 */
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 50%, #ffd6dd 100%);
-            background-attachment: fixed;
+            background: #fef9f9;
             font-size: 14px;
             font-family: '微软雅黑', 'PingFang SC', 'Microsoft YaHei', 'Heiti SC', sans-serif;
             color: #5a3a3a;
@@ -151,7 +150,7 @@
             cursor: pointer;
         }
 
-        /* 歌词样式 - 温馨梦幻 */
+        /* 歌词样式 - 简洁透明 */
         #lyric-box {
             position: fixed;
             bottom: 100px;
@@ -160,19 +159,17 @@
             font-size: 26px;
             color: #fff;
             text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 182, 193, 0.5);
-            opacity: 1;
+            opacity: 0;
             transition: opacity 1s ease;
             font-family: '微软雅黑', 'PingFang SC', 'Heiti SC', sans-serif;
             z-index: 9999;
             line-height: 1.8;
-            padding: 15px 20px;
-            background: rgba(214, 56, 100, 0.15);
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
+            padding: 0;
             max-width: 90%;
             margin: 0 auto;
             left: 0;
             right: 0;
+            pointer-events: none;
         }
         
         #lyric-en {
@@ -191,11 +188,6 @@
 
         /* 移动端适配 - 完善优化 */
         @media screen and (max-width: 768px) {
-            body {
-                background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 50%, #ffd6dd 100%);
-                background-attachment: fixed;
-            }
-            
             #wrap {
                 max-width: 100%;
                 min-height: auto;
@@ -251,9 +243,7 @@
             #lyric-box {
                 font-size: 16px;
                 bottom: 160px;
-                padding: 12px 15px;
                 max-width: 85%;
-                border-radius: 12px;
             }
             
             #lyric-en {
@@ -287,7 +277,6 @@
             #lyric-box {
                 font-size: 14px;
                 bottom: 140px;
-                padding: 10px 12px;
             }
             
             #lyric-en {
@@ -545,6 +534,7 @@
         const audio = document.getElementById("bgm");
         const lyricEn = document.getElementById("lyric-en");
         const lyricCn = document.getElementById("lyric-cn");
+        const lyricBox = document.getElementById("lyric-box");
 
         let currentIndex = -1;
 
@@ -555,6 +545,7 @@
                     if (currentIndex !== i) {
                         lyricEn.textContent = lyrics[i].en;
                         lyricCn.textContent = lyrics[i].cn;
+                        lyricBox.style.opacity = '1';
                         currentIndex = i;
                     }
                     break;
